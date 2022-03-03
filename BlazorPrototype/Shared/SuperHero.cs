@@ -11,6 +11,6 @@ namespace BlazorPrototype.Shared
 		public string LastName { get; set; } = string.Empty;
 		public string HeroName { get; set; } = string.Empty;
 		public Comic? Comic { get; set; }
-		public int ComicId { get; set; }
+		public string SelectedComicId { get; set; }
 	}
 }

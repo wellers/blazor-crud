@@ -2,7 +2,7 @@
 @page "/hero/{id:int}"
 @inject ISuperHeroService SuperHeroService
 
-@if(Id == null)
+@if(!Id.HasValue)
 {	
 	<h3>Create new Super Hero</h3>
 }
@@ -27,7 +27,7 @@ else
 	</div>
 	<div>
 		<label>Comic</label><br />
-		<InputSelect @bind-Value="hero.ComicId" class="form-select">
+		<InputSelect @bind-Value="hero.SelectedComicId" class="form-select">
 			@foreach (var comic in SuperHeroService.Comics)
 			{
 				<option value="@comic.Id">@comic.Name</option>
@@ -36,6 +36,10 @@ else
 	</div>
 	<br />
 	<button type="submit" class="btn btn-primary">@btnText</button>
+	@if (Id.HasValue)
+	{
+		<button type="button" class="btn btn-secondary" @onclick="DeleteHero">Delete Hero</button>
+	}
 </EditForm>
 
 @code {
@@ -47,7 +51,7 @@ else
 	SuperHero hero = new SuperHero { Comic = new Comic() };
 
 	protected override async Task OnInitializedAsync()
-	{ 
+	{
 		btnText = !Id.HasValue ? "Save New Hero" : "Update Hero";
 		await SuperHeroService.GetComics();
 	}
@@ -57,6 +61,8 @@ else
 		if (!Id.HasValue)
 		{
 			// Create a new hero
+			hero.Comic = SuperHeroService.Comics[0];
+			hero.SelectedComicId = hero.Comic.Id.ToString();
 		}
 		else
 		{
@@ -66,6 +72,20 @@ else
 
 	async Task HandleSubmit()
 	{
+		if (!Id.HasValue)
+		{
+			// Create a new hero
+			await SuperHeroService.AddSuperHero(hero);
+		}
+		else
+		{
+			// Update exising a new hero
+			await SuperHeroService.UpdateSuperHero(hero);
+		}
+	}
 
+	async Task DeleteHero()
+	{
+		await SuperHeroService.DeleteSuperHero(Id.Value);
 	}
 }

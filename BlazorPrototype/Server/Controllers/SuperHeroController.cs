@@ -1,7 +1,5 @@
 ﻿using BlazorPrototype.Shared;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,7 +25,7 @@ namespace BlazorPrototype.Server.Controllers
 				LastName = "Parker",
 				HeroName = "Spiderman",
 				Comic = _comics[0],
-				ComicId = 1
+				SelectedComicId = "1"
 			},
 			new SuperHero
 			{
@@ -36,7 +34,7 @@ namespace BlazorPrototype.Server.Controllers
 				LastName = "Wayne",
 				HeroName = "Batman",
 				Comic = _comics[1],
-				ComicId = 2
+				SelectedComicId = "2"
 			}
 		};
 		
@@ -61,6 +59,41 @@ namespace BlazorPrototype.Server.Controllers
 				return NotFound("Sorry, no hero here.");
 
 			return Ok(hero);
+		}
+
+		[HttpPost("AddSuperHero")]
+		public async Task<ActionResult> AddSuperHero(SuperHero hero)
+		{
+			hero.Id = _heroes.Select(h => h.Id).Max() + 1;
+			hero.Comic = _comics.FirstOrDefault(c => c.Id == int.Parse(hero.SelectedComicId));
+
+			_heroes.Add(hero);
+			return Ok(_heroes);
+		}
+
+		[HttpPut("{id}")]
+		public async Task<ActionResult> UpdateSuperHero(SuperHero hero){
+			var foundHero = _heroes.FirstOrDefault(h => h.Id == hero.Id);
+			
+			if (foundHero == null)
+				return NotFound("Sorry, no hero here.");
+			
+			_heroes.Remove(foundHero);
+			_heroes.Add(hero);
+
+			return Ok(_heroes);
+		}
+
+		[HttpDelete("{id}")]
+		public async Task<ActionResult> DeleteSuperHero(int id)
+		{
+			var hero = _heroes.FirstOrDefault(h => h.Id == id);
+
+			if (hero == null)
+				return NotFound("Sorry, no hero here.");
+
+			_heroes.Remove(hero);
+			return Ok(_heroes);
 		}
 	}
 }

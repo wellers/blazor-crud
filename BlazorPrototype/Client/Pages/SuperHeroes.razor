@@ -32,10 +32,17 @@
 	</tbody>
 </table>
 
+<button class="btn btn-secondary" @onclick="(() => AddHero())">Add Super Hero</button>
+
 @code {
 	protected override async Task OnInitializedAsync()
 	{
 		await SuperHeroService.GetSuperHeroes();
+	}
+
+	void AddHero()
+	{
+		NavigationManager.NavigateTo($"hero");
 	}
 
 	void ShowHero(int id)
