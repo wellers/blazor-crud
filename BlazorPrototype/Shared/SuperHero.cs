@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BlazorPrototype.Shared
+﻿namespace BlazorPrototype.Shared
 {
-	public class SuperHero
+    public class SuperHero
 	{
 		public int Id { get; set; }
 		public string FirstName { get; set; } = string.Empty;

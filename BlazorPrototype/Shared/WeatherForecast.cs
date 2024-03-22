@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BlazorPrototype.Shared
 {
-	public class WeatherForecast
+    public class WeatherForecast
 	{
 		public DateTime Date { get; set; }
 

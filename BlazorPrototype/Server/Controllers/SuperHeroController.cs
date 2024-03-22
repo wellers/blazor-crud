@@ -10,15 +10,15 @@ namespace BlazorPrototype.Server.Controllers
 	[ApiController]
 	public class SuperHeroController : ControllerBase
 	{
-		public static List<Comic> _comics = new List<Comic>
-		{
-			new Comic { Id = 1, Name = "Marvel" },
+		private static List<Comic> _comics =
+        [
+            new Comic { Id = 1, Name = "Marvel" },
 			new Comic { Id = 2, Name = "DC" }
-		};
+		];
 
-		public static List<SuperHero> _heroes = new List<SuperHero>
-		{
-			new SuperHero
+        private static List<SuperHero> _heroes =
+        [
+            new SuperHero
 			{
 				Id = 1,
 				FirstName = "Peter",
@@ -36,7 +36,7 @@ namespace BlazorPrototype.Server.Controllers
 				Comic = _comics[1],
 				SelectedComicId = "2"
 			}
-		};
+		];
 		
 		[HttpGet]
 		public async Task<ActionResult<List<SuperHero>>> GetSuperHeroes()

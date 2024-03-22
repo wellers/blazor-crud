@@ -4,27 +4,30 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BlazorPrototype.Server.Controllers
 {
 	[ApiController]
 	[Route("[controller]")]
-	public class WeatherForecastController : ControllerBase
+	public class WeatherForecastController(ILogger<WeatherForecastController> logger) : ControllerBase
 	{
-		private static readonly string[] Summaries = new[]
-		{
-			"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-		};
+		private static readonly string[] Summaries =
+		[
+			"Freezing",
+			"Bracing",
+			"Chilly",
+			"Cool",
+			"Mild",
+			"Warm",
+			"Balmy",
+			"Hot",
+			"Sweltering",
+			"Scorching"
+		];
 
-		private readonly ILogger<WeatherForecastController> logger;
+		private readonly ILogger<WeatherForecastController> logger = logger;
 
-		public WeatherForecastController(ILogger<WeatherForecastController> logger)
-		{
-			this.logger = logger;
-		}
-
-		[HttpGet]
+        [HttpGet]
 		public IEnumerable<WeatherForecast> Get()
 		{
 			var rng = new Random();
