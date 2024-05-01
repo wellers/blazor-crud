@@ -34,6 +34,7 @@ namespace BlazorPrototype.Client.Services.SuperHeroService
 			var result = await _http.PostAsJsonAsync("api/superhero/addsuperhero", hero);
 			await SetHeroes(result);
 		}
+		
 		private async Task SetHeroes(HttpResponseMessage result)
 		{
 			var response = await result.Content.ReadFromJsonAsync<List<SuperHero>>();

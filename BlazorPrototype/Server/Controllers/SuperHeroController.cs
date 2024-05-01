@@ -10,13 +10,13 @@ namespace BlazorPrototype.Server.Controllers
 	[ApiController]
 	public class SuperHeroController : ControllerBase
 	{
-		private static List<Comic> _comics =
+		private static readonly List<Comic> Comics =
         [
             new Comic { Id = 1, Name = "Marvel" },
 			new Comic { Id = 2, Name = "DC" }
 		];
 
-        private static List<SuperHero> _heroes =
+        private static readonly List<SuperHero> Heroes =
         [
             new SuperHero
 			{
@@ -24,7 +24,7 @@ namespace BlazorPrototype.Server.Controllers
 				FirstName = "Peter",
 				LastName = "Parker",
 				HeroName = "Spiderman",
-				Comic = _comics[0],
+				Comic = Comics[0],
 				SelectedComicId = "1"
 			},
 			new SuperHero
@@ -33,7 +33,7 @@ namespace BlazorPrototype.Server.Controllers
 				FirstName = "Bruce",
 				LastName = "Wayne",
 				HeroName = "Batman",
-				Comic = _comics[1],
+				Comic = Comics[1],
 				SelectedComicId = "2"
 			}
 		];
@@ -41,19 +41,19 @@ namespace BlazorPrototype.Server.Controllers
 		[HttpGet]
 		public async Task<ActionResult<List<SuperHero>>> GetSuperHeroes()
 		{
-			return Ok(_heroes);
+			return Ok(Heroes);
 		}
 
 		[HttpGet("Comics")]
 		public async Task<ActionResult<List<Comic>>> GetComics()
 		{
-			return Ok(_comics);
+			return Ok(Comics);
 		}
 
 		[HttpGet("{id}")]		
 		public async Task<ActionResult<List<SuperHero>>> GetSingleHeroes(int id)
 		{
-			var hero = _heroes.FirstOrDefault(h => h.Id == id);
+			var hero = Heroes.FirstOrDefault(h => h.Id == id);
 
 			if (hero == null)
 				return NotFound("Sorry, no hero here.");
@@ -64,36 +64,36 @@ namespace BlazorPrototype.Server.Controllers
 		[HttpPost("AddSuperHero")]
 		public async Task<ActionResult> AddSuperHero(SuperHero hero)
 		{
-			hero.Id = _heroes.Select(h => h.Id).Max() + 1;
-			hero.Comic = _comics.FirstOrDefault(c => c.Id == int.Parse(hero.SelectedComicId));
+			hero.Id = Heroes.Select(h => h.Id).Max() + 1;
+			hero.Comic = Comics.FirstOrDefault(c => c.Id == int.Parse(hero.SelectedComicId));
 
-			_heroes.Add(hero);
-			return Ok(_heroes);
+			Heroes.Add(hero);
+			return Ok(Heroes);
 		}
 
 		[HttpPut("{id}")]
 		public async Task<ActionResult> UpdateSuperHero(SuperHero hero){
-			var foundHero = _heroes.FirstOrDefault(h => h.Id == hero.Id);
+			var foundHero = Heroes.FirstOrDefault(h => h.Id == hero.Id);
 			
 			if (foundHero == null)
 				return NotFound("Sorry, no hero here.");
 			
-			_heroes.Remove(foundHero);
-			_heroes.Add(hero);
+			Heroes.Remove(foundHero);
+			Heroes.Add(hero);
 
-			return Ok(_heroes);
+			return Ok(Heroes);
 		}
 
 		[HttpDelete("{id}")]
 		public async Task<ActionResult> DeleteSuperHero(int id)
 		{
-			var hero = _heroes.FirstOrDefault(h => h.Id == id);
+			var hero = Heroes.FirstOrDefault(h => h.Id == id);
 
 			if (hero == null)
 				return NotFound("Sorry, no hero here.");
 
-			_heroes.Remove(hero);
-			return Ok(_heroes);
+			Heroes.Remove(hero);
+			return Ok(Heroes);
 		}
 	}
 }

@@ -8,3 +8,4 @@
 _ReSharper.*
 _ReSharper*/
 packages
+.idea

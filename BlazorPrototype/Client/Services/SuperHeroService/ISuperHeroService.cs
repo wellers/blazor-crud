@@ -8,7 +8,6 @@ namespace BlazorPrototype.Client.Services.SuperHeroService
 	{
 		List<SuperHero> Heroes { get; set; }
 		List<Comic> Comics { get; set; }
-
 		Task GetSuperHeroes();
 		Task<SuperHero> GetSingleHero(int id);
 		Task GetComics();

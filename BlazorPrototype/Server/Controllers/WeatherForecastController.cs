@@ -25,9 +25,7 @@ namespace BlazorPrototype.Server.Controllers
 			"Scorching"
 		];
 
-		private readonly ILogger<WeatherForecastController> logger = logger;
-
-        [HttpGet]
+		[HttpGet]
 		public IEnumerable<WeatherForecast> Get()
 		{
 			var rng = new Random();
