@@ -11,14 +11,14 @@ namespace BlazorPrototype.Server.Controllers
 	public class SuperHeroController : ControllerBase
 	{
 		private static readonly List<Comic> Comics =
-        [
-            new Comic { Id = 1, Name = "Marvel" },
+		[
+			new Comic { Id = 1, Name = "Marvel" },
 			new Comic { Id = 2, Name = "DC" }
 		];
 
-        private static readonly List<SuperHero> Heroes =
-        [
-            new SuperHero
+		private static readonly List<SuperHero> Heroes =
+		[
+			new SuperHero
 			{
 				Id = 1,
 				FirstName = "Peter",
@@ -37,7 +37,7 @@ namespace BlazorPrototype.Server.Controllers
 				SelectedComicId = "2"
 			}
 		];
-		
+
 		[HttpGet]
 		public async Task<ActionResult<List<SuperHero>>> GetSuperHeroes()
 		{
@@ -50,7 +50,7 @@ namespace BlazorPrototype.Server.Controllers
 			return Ok(Comics);
 		}
 
-		[HttpGet("{id}")]		
+		[HttpGet("{id}")]
 		public async Task<ActionResult<List<SuperHero>>> GetSingleHeroes(int id)
 		{
 			var hero = Heroes.FirstOrDefault(h => h.Id == id);
@@ -72,12 +72,13 @@ namespace BlazorPrototype.Server.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public async Task<ActionResult> UpdateSuperHero(SuperHero hero){
+		public async Task<ActionResult> UpdateSuperHero(SuperHero hero)
+		{
 			var foundHero = Heroes.FirstOrDefault(h => h.Id == hero.Id);
-			
+
 			if (foundHero == null)
 				return NotFound("Sorry, no hero here.");
-			
+
 			Heroes.Remove(foundHero);
 			Heroes.Add(hero);
 
